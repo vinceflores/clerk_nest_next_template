@@ -7,7 +7,7 @@ Nextjs and Nestjs can be a powerful combo when developing maintableable applicat
 clone this repo
 
 ```
-
+git clone https://github.com/vinceflores/clerk_nest_next_template.git
 ```
 
 Install the npm packages
