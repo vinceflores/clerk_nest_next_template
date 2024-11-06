@@ -1,3 +1,5 @@
+import { ClerkService } from './clerk.service';
+import { ConfigService } from '@nestjs/config';
 import {
   Controller,
   HttpCode,
@@ -7,24 +9,23 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { ClerkService } from './clerk/clerk.service';
-import { Webhook } from 'svix';
 import { Request, Response } from 'express';
+import { Webhook } from 'svix';
 
-import * as dotenv from 'dotenv';
+@Controller('clerk')
+export class ClerkController {
+  constructor(
+    private clerk: ClerkService,
+    private configService: ConfigService,
+  ) {}
 
-dotenv.config({ path: process.cwd() });
-
-@Controller('webhooks')
-export class WebhooksController {
-  constructor(private clerk: ClerkService) {}
-
-  @Post('/clerk')
+  @Post('/webhook')
   @HttpCode(200)
   async handleClerk(@Req() req: RawBodyRequest<Request>, @Res() res: Response) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-    const WEBHOOK_SECRET =
-      process.env.WEBHOOK_SECRET || 'whsec_BRr7hXxcon5UU1NZgT62399bj4GjfJ9z';
+    const WEBHOOK_SECRET = this.configService.get<string | Uint8Array>(
+      'WEBHOOK_SECRET',
+    );
     if (!WEBHOOK_SECRET) {
       throw new Error('You need a WEBHOOK_SECRET in your .env');
     }

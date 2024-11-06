@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { Request, Response } from 'express';
 @Injectable()
 export class ClerkService {
@@ -14,8 +14,8 @@ export class ClerkService {
   async handleWebhook(evt: any, res: Response) {
     const { id } = evt.data;
     const eventType = evt.type;
-    console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
-    console.log('Webhook body:', evt.data);
+    // console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
+    // console.log('Webhook body:', evt.data);
     try {
       if (evt.type == 'user.created' || evt.type == 'user.updated') {
         await this.handleUserCreatedOrUpdated(evt);
