@@ -27,7 +27,7 @@ Create the `.env` files using the examples
 
 ```
 #/fronend
-cp .env.local-example .env.local
+cp env-local-example .env.local
 ```
 
 ```
